@@ -1,0 +1,6 @@
+name: Permissions
+main: com.dthielke.permissions.PermissionsPlugin
+version: 1.0.0
+website: http://www.herocraftonline.com
+authors: [DThielke]
+description: Permissions system
