@@ -48,27 +48,32 @@ public class GroupSet {
         }
     }
 
-    public void loadGroups() {
-        ConfigurationSection groupSection = config.getConfigurationSection("groups");
-        Set<String> groupNames = groupSection.getKeys(false);
-
-        // create all the groups first so they're available for inheritance structuring
-        for (String group : groupNames) {
-            addGroup(new Group(group));
-        }
-
-        // populate each group
-        for (String group : groupNames) {
-            loadGroup(groupSection.getConfigurationSection(group), getGroup(group));
-        }
-
-        // set the default group
-        String defaultGroupName = config.getString("default");
-        defaultGroup = getGroup(defaultGroupName);
-    }
-
     public void addGroup(Group group) {
         groups.put(group.getName(), group);
+    }
+
+    public void clear() {
+        // remove all groups
+        for (Group group : getGroups()) {
+            group.clear();
+            removeGroup(group);
+        }
+    }
+
+    public Group getDefaultGroup() {
+        return defaultGroup;
+    }
+
+    public Group getGroup(String name) {
+        return groups.get(name);
+    }
+
+    public Set<Group> getGroups() {
+        return new HashSet<Group>(groups.values());
+    }
+
+    public boolean hasGroup(String name) {
+        return groups.containsKey(name);
     }
 
     public void loadGroup(ConfigurationSection config, Group group) {
@@ -91,7 +96,7 @@ public class GroupSet {
             }
 
             // add the permission
-            group.addPermission(key, value);
+            group.addPermission(key, value, false);
         }
 
         // add child groups
@@ -109,54 +114,23 @@ public class GroupSet {
         }
     }
 
-    private static boolean hasCircularReference(Group group, Group child) {
-        if (child.equals(group)) {
-            return true;
+    public void loadGroups() {
+        ConfigurationSection groupSection = config.getConfigurationSection("groups");
+        Set<String> groupNames = groupSection.getKeys(false);
+
+        // create all the groups first so they're available for inheritance structuring
+        for (String group : groupNames) {
+            addGroup(new Group(group));
         }
 
-        for (Group grandChild : child.getChildren()) {
-            if (hasCircularReference(group, grandChild)) {
-                return true;
-            }
+        // populate each group
+        for (String group : groupNames) {
+            loadGroup(groupSection.getConfigurationSection(group), getGroup(group));
         }
 
-        return false;
-    }
-
-    public Group getGroup(String name) {
-        return groups.get(name);
-    }
-
-    public void clear() {
-        // remove all groups
-        for (Group group : getGroups()) {
-            group.clear();
-            removeGroup(group);
-        }
-    }
-
-    public void removeGroup(Group group) {
-        groups.remove(group.getName());
-    }
-
-    public Group getDefaultGroup() {
-        return defaultGroup;
-    }
-
-    public void setDefaultGroup(Group group) {
-        if (group != null) {
-            defaultGroup = getGroup(group.getName());
-        } else {
-            defaultGroup = null;
-        }
-    }
-
-    public Set<Group> getGroups() {
-        return new HashSet<Group>(groups.values());
-    }
-
-    public boolean hasGroup(String name) {
-        return groups.containsKey(name);
+        // set the default group
+        String defaultGroupName = config.getString("default");
+        defaultGroup = getGroup(defaultGroupName);
     }
 
     public User loadUser(User user) {
@@ -177,5 +151,31 @@ public class GroupSet {
 
         // add the user to the map
         return user;
+    }
+
+    public void removeGroup(Group group) {
+        groups.remove(group.getName());
+    }
+
+    public void setDefaultGroup(Group group) {
+        if (group != null) {
+            defaultGroup = getGroup(group.getName());
+        } else {
+            defaultGroup = null;
+        }
+    }
+
+    private static boolean hasCircularReference(Group group, Group child) {
+        if (child.equals(group)) {
+            return true;
+        }
+
+        for (Group grandChild : child.getChildren()) {
+            if (hasCircularReference(group, grandChild)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

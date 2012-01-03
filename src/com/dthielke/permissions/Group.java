@@ -1,6 +1,9 @@
 package com.dthielke.permissions;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class Group {
     private final String name;
@@ -17,12 +20,11 @@ public class Group {
         }
     }
 
-    public void addPermission(String name, boolean value) {
-        // negative permissions take precedence
-        if (permissions.containsKey(name) && !permissions.get(name)) {
-            return;
+    public void addPermission(String name, boolean value, boolean overwrite) {
+        // negative permissions take precedence unless we're overwriting the value
+        if (overwrite || !permissions.containsKey(name) || permissions.get(name)) {
+            permissions.put(name, value);
         }
-        permissions.put(name, value);
     }
 
     public Map<String, Boolean> aggregatePermissions() {
@@ -63,33 +65,9 @@ public class Group {
         return name;
     }
 
-    public Map<String, Boolean> getPermissions() {
-        return new HashMap<String, Boolean>(permissions);
-    }
-
-    public boolean hasChild(Group child) {
-        return children.contains(child);
-    }
-
     @Override
     public int hashCode() {
         return name.hashCode();
-    }
-
-    public boolean hasPermission(String name) {
-        return permissions.get(name);
-    }
-
-    public void overwritePermission(String name, boolean value) {
-        permissions.put(name, value);
-    }
-
-    public void removeChild(Group child) {
-        children.remove(child);
-    }
-
-    public void removePermission(String name) {
-        permissions.remove(name);
     }
 
     @Override

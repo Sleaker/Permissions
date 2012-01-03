@@ -34,7 +34,7 @@ public class GroupManager {
             if (file.equals(defaultGroupFile)) {
                 continue;
             }
-            
+
             // get the world name
             String world = file.getName();
             world = world.substring(0, world.length() - 4).toLowerCase();
@@ -80,11 +80,8 @@ public class GroupManager {
         }
     }
 
-    public void removeUser(User user) {
-        if (user != null) {
-            user.removeAttachment();
-            users.remove(user.getPlayer());
-        }
+    public User getUser(Player player) {
+        return users.get(player);
     }
 
     public Set<User> getUsers() {
@@ -118,11 +115,14 @@ public class GroupManager {
         users.put(player, user);
     }
 
-    public void removeUser(Player player) {
-        removeUser(getUser(player));
+    public void removeUser(User user) {
+        if (user != null) {
+            user.removeAttachment();
+            users.remove(user.getPlayer());
+        }
     }
 
-    public User getUser(Player player) {
-        return users.get(player);
+    public void removeUser(Player player) {
+        removeUser(getUser(player));
     }
 }

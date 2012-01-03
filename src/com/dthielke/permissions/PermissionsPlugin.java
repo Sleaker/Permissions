@@ -9,29 +9,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class PermissionsPlugin extends JavaPlugin {
     private GroupManager groupManager;
 
+    private void clearGroupManager() {
+        groupManager.clear();
+    }
+
     @Override
     public void onDisable() {
         clearGroupManager();
-    }
-
-    private void clearGroupManager() {
-        groupManager.clear();
     }
 
     @Override
     public void onEnable() {
         setupGroupManager();
         registerEvents();
-    }
-
-    private void setupGroupManager() {
-        // create the group manager
-        groupManager = new GroupManager(getDataFolder(), new PermissionAttachmentFactory(this));
-
-        // load users for any online players
-        for (Player player : getServer().getOnlinePlayers()) {
-            groupManager.loadUser(player);
-        }
     }
 
     private void registerEvents() {
@@ -43,5 +33,15 @@ public class PermissionsPlugin extends JavaPlugin {
         pluginManager.registerEvent(Event.Type.PLAYER_JOIN, listener, Event.Priority.Lowest, this);
         pluginManager.registerEvent(Event.Type.PLAYER_QUIT, listener, Event.Priority.Normal, this);
         pluginManager.registerEvent(Event.Type.PLAYER_CHANGED_WORLD, listener, Event.Priority.Normal, this);
+    }
+
+    private void setupGroupManager() {
+        // create the group manager
+        groupManager = new GroupManager(getDataFolder(), new PermissionAttachmentFactory(this));
+
+        // load users for any online players
+        for (Player player : getServer().getOnlinePlayers()) {
+            groupManager.loadUser(player);
+        }
     }
 }
