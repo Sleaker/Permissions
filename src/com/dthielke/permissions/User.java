@@ -28,8 +28,22 @@ public class User extends Group {
         }
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            return player.equals(((User) obj).getPlayer());
+        } else {
+            return super.equals(obj);
+        }
+    }
+
     public Player getPlayer() {
         return player;
+    }
+
+    @Override
+    public int hashCode() {
+        return player.hashCode();
     }
 
     public void removeAttachment() {

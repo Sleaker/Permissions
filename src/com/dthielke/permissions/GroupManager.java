@@ -10,26 +10,28 @@ import java.util.Map;
 import java.util.Set;
 
 public class GroupManager {
+    private static final FilenameFilter FILTER = new YAMLFilter();
+    private static final int YAML_EXTENSION_LENGTH = 4;
+
     private Map<String, GroupSet> worldSets = new HashMap<String, GroupSet>();
     private Map<Player, User> users = new HashMap<Player, User>();
     private GroupSet defaultGroupSet;
     private PermissionAttachmentFactory factory;
+
+    static class YAMLFilter implements FilenameFilter {
+        @Override
+        public boolean accept(File dir, String name) {
+            return name.toLowerCase().endsWith(".yml");
+        }
+    }
 
     public GroupManager(File configFolder, PermissionAttachmentFactory factory) {
         // create the default world settings
         File defaultGroupFile = new File(configFolder, "defaults.yml");
         defaultGroupSet = new GroupSet(defaultGroupFile);
 
-        // create a .yml filename filter
-        FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.toLowerCase().endsWith(".yml");
-            }
-        };
-
         // load settings for each world file
-        for (File file : configFolder.listFiles(filter)) {
+        for (File file : configFolder.listFiles(FILTER)) {
             // skip the default file
             if (file.equals(defaultGroupFile)) {
                 continue;
@@ -37,10 +39,11 @@ public class GroupManager {
 
             // get the world name
             String world = file.getName();
-            world = world.substring(0, world.length() - 4).toLowerCase();
+            world = world.substring(0, world.length() - YAML_EXTENSION_LENGTH).toLowerCase();
 
             // load the groups
             GroupSet set = new GroupSet(file);
+            set.loadGroups();
 
             // apply the default group settings
             for (Group group : set.getGroups()) {

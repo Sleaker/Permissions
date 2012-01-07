@@ -6,7 +6,10 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Logger;
+
 public class PermissionsPlugin extends JavaPlugin {
+    private static final Logger LOGGER = Logger.getLogger("Minecraft");
     private GroupManager groupManager;
 
     private void clearGroupManager() {
@@ -16,10 +19,12 @@ public class PermissionsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         clearGroupManager();
+        info("disabled.");
     }
 
     @Override
     public void onEnable() {
+        info("enabled.");
         setupGroupManager();
         registerEvents();
     }
@@ -43,5 +48,13 @@ public class PermissionsPlugin extends JavaPlugin {
         for (Player player : getServer().getOnlinePlayers()) {
             groupManager.loadUser(player);
         }
+    }
+
+    public static void info(String message) {
+        LOGGER.info("[HeroPerms] " + message);
+    }
+
+    public static void warning(String message) {
+        LOGGER.warning("[HeroPerms] " + message);
     }
 }

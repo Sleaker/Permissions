@@ -31,11 +31,11 @@ public class Group {
         for (Group child : children) {
             Map<String, Boolean> childPerms = child.aggregatePermissions();
             for (Map.Entry<String, Boolean> permission : childPerms.entrySet()) {
-                String name = permission.getKey();
-                Boolean existingValue = aggregate.get(name);
+                String key = permission.getKey();
+                Boolean existingValue = aggregate.get(key);
                 // add each permission that we don't have unless it would override a negated node
                 if (existingValue == null || !existingValue) {
-                    aggregate.put(name, permission.getValue());
+                    aggregate.put(key, permission.getValue());
                 }
             }
         }
@@ -60,7 +60,11 @@ public class Group {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Group && name.equals(((Group) obj).name);
+        if (obj instanceof Group) {
+            return name.equals(((Group) obj).getName());
+        } else {
+            return super.equals(obj);
+        }
     }
 
     public Set<Group> getChildren() {

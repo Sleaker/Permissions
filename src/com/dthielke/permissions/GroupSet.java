@@ -32,19 +32,17 @@ public class GroupSet {
             try {
                 config.load(configFile);
             } catch (IOException e) {
-                e.printStackTrace();
+                PermissionsPlugin.warning("Could not load file: " + configFile.getAbsolutePath());
             } catch (InvalidConfigurationException e) {
-                e.printStackTrace();
+                PermissionsPlugin.warning("Invalid configuration file: " + configFile.getAbsolutePath());
             }
         }
-
-        loadGroups();
 
         // save the file
         try {
             config.save(configFile);
         } catch (IOException e) {
-            e.printStackTrace();
+            PermissionsPlugin.warning("Could not save file: " + configFile.getAbsolutePath());
         }
     }
 
@@ -105,9 +103,9 @@ public class GroupSet {
             Group child = getGroup(childName);
 
             if (child == null) {
-                // debug out: group not found
+                PermissionsPlugin.warning("Child group not found: " + childName + " in " + group.getName());
             } else if (hasCircularReference(group, child)) {
-                // debug out: circular reference
+                PermissionsPlugin.warning("Circular child reference found: " + childName + " in " + group.getName());
             } else {
                 group.addChild(child);
             }
