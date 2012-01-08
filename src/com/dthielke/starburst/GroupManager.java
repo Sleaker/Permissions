@@ -29,6 +29,7 @@ public class GroupManager {
         // create the default world settings
         File defaultGroupFile = new File(configFolder, "defaults.yml");
         defaultGroupSet = new GroupSet(defaultGroupFile);
+        defaultGroupSet.loadGroups();
 
         // load settings for each world file
         for (File file : configFolder.listFiles(FILTER)) {
