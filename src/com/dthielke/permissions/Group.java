@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Group {
     private final String name;
-    private Map<String, Boolean> permissions = new TreeMap<String, Boolean>();
+    private Map<String, Boolean> permissions = new HashMap<String, Boolean>();
     private Set<Group> children = new HashSet<Group>();
 
     public Group(String name) {
