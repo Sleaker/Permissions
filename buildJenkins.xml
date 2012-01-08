@@ -4,11 +4,11 @@
         <include name="**/?*.yml"/>
     </patternset>
 
-    <dirname property="module.permissions.basedir" file="${ant.file}"/>
-    <property name="permissions.output.dir" value="${module.permissions.basedir}/out"/>
-    <property name="permissions.src.dir" value="${module.permissions.basedir}/src"/>
-    <property name="permissions.libs.dir" value="${module.permissions.basedir}/libs"/>
-    <property name="permissions.jar.dir" value="${module.permissions.basedir}/build"/>
+    <dirname property="permissions.basedir" file="${ant.file}"/>
+    <property name="permissions.output.dir" value="${permissions.basedir}/out"/>
+    <property name="permissions.src.dir" value="${permissions.basedir}/src"/>
+    <property name="permissions.libs.dir" value="${permissions.basedir}/libs"/>
+    <property name="permissions.jar.dir" value="${permissions.basedir}/build"/>
 
     <target name="package" depends="compile">
         <jar basedir="${permissions.output.dir}" destfile="${permissions.jar.dir}/HeroPerms.jar"/>
@@ -16,7 +16,8 @@
 
     <target name="compile">
         <mkdir dir="${permissions.output.dir}"/>
-        <javac destdir="${permissions.output.dir}" srcdir="${permissions.src.dir}" debug="true">
+        <javac destdir="${permissions.output.dir}" srcdir="${permissions.src.dir}" debug="true"
+               includeAntRuntime="false">
             <classpath>
                 <fileset dir="${permissions.libs.dir}">
                     <include name="**/*.jar"/>
