@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="permissions" default="build">
+    <patternset id="compiler.resources">
+        <include name="**/?*.yml"/>
+    </patternset>
+
+    <dirname property="module.permissions.basedir" file="${ant.file}"/>
+    <property name="permissions.output.dir" value="${module.permissions.basedir}/out"/>
+    <property name="permissions.src.dir" value="${module.permissions.basedir}/src"/>
+    <property name="permissions.libs.dir" value="${module.permissions.basedir}/libs"/>
+    <property name="permissions.jar.dir" value="${module.permissions.basedir}/build"/>
+
+    <target name="package" depends="compile">
+        <jar basedir="${permissions.output.dir}" destfile="${permissions.jar.dir}/HeroPerms.jar"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${permissions.output.dir}"/>
+        <javac destdir="${permissions.output.dir}" srcdir="${permissions.src.dir}" debug="true">
+            <classpath>
+                <fileset dir="${permissions.libs.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+        <copy todir="${permissions.output.dir}">
+            <fileset dir="${permissions.src.dir}">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="clean">
+        <delete dir="${permissions.output.dir}"/>
+    </target>
+
+    <target name="build" depends="clean, package"/>
+</project>
