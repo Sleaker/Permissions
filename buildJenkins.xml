@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="permissions" default="build">
+<project name="starburst" default="build">
     <patternset id="compiler.resources">
         <include name="**/?*.yml"/>
     </patternset>
 
-    <dirname property="permissions.basedir" file="${ant.file}"/>
-    <property name="permissions.output.dir" value="${permissions.basedir}/out"/>
-    <property name="permissions.src.dir" value="${permissions.basedir}/src"/>
-    <property name="permissions.libs.dir" value="${permissions.basedir}/libs"/>
-    <property name="permissions.jar.dir" value="${permissions.basedir}/build"/>
+    <dirname property="starburst.basedir" file="${ant.file}"/>
+    <property name="starburst.output.dir" value="${starburst.basedir}/out"/>
+    <property name="starburst.src.dir" value="${starburst.basedir}/src"/>
+    <property name="starburst.libs.dir" value="${starburst.basedir}/libs"/>
+    <property name="starburst.jar.dir" value="${starburst.basedir}/build"/>
 
     <target name="package" depends="compile">
-        <jar basedir="${permissions.output.dir}" destfile="${permissions.jar.dir}/HeroPerms.jar"/>
+        <jar basedir="${starburst.output.dir}" destfile="${starburst.jar.dir}/Starburst.jar"/>
     </target>
 
     <target name="compile">
-        <mkdir dir="${permissions.output.dir}"/>
-        <javac destdir="${permissions.output.dir}" srcdir="${permissions.src.dir}" debug="true"
+        <mkdir dir="${starburst.output.dir}"/>
+        <javac destdir="${starburst.output.dir}" srcdir="${starburst.src.dir}" debug="true"
                includeAntRuntime="false">
             <classpath>
-                <fileset dir="${permissions.libs.dir}">
+                <fileset dir="${starburst.libs.dir}">
                     <include name="**/*.jar"/>
                 </fileset>
             </classpath>
         </javac>
-        <copy todir="${permissions.output.dir}">
-            <fileset dir="${permissions.src.dir}">
+        <copy todir="${starburst.output.dir}">
+            <fileset dir="${starburst.src.dir}">
                 <patternset refid="compiler.resources"/>
                 <type type="file"/>
             </fileset>
@@ -33,7 +33,7 @@
     </target>
 
     <target name="clean">
-        <delete dir="${permissions.output.dir}"/>
+        <delete dir="${starburst.output.dir}"/>
     </target>
 
     <target name="build" depends="clean, package"/>

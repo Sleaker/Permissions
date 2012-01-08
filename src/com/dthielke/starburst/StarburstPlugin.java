@@ -1,4 +1,4 @@
-package com.dthielke.permissions;
+package com.dthielke.starburst;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
-public class PermissionsPlugin extends JavaPlugin {
+public class StarburstPlugin extends JavaPlugin {
     private static final Logger LOGGER = Logger.getLogger("Minecraft");
     private GroupManager groupManager;
 
@@ -51,10 +51,10 @@ public class PermissionsPlugin extends JavaPlugin {
     }
 
     public static void info(String message) {
-        LOGGER.info("[HeroPerms] " + message);
+        LOGGER.info("[Starburst] " + message);
     }
 
     public static void warning(String message) {
-        LOGGER.warning("[HeroPerms] " + message);
+        LOGGER.warning("[Starburst] " + message);
     }
 }

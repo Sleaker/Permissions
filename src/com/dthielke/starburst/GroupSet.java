@@ -1,4 +1,4 @@
-package com.dthielke.permissions;
+package com.dthielke.starburst;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -32,9 +32,9 @@ public class GroupSet {
             try {
                 config.load(configFile);
             } catch (IOException e) {
-                PermissionsPlugin.warning("Could not load file: " + configFile.getAbsolutePath());
+                StarburstPlugin.warning("Could not load file: " + configFile.getAbsolutePath());
             } catch (InvalidConfigurationException e) {
-                PermissionsPlugin.warning("Invalid configuration file: " + configFile.getAbsolutePath());
+                StarburstPlugin.warning("Invalid configuration file: " + configFile.getAbsolutePath());
             }
         }
 
@@ -42,7 +42,7 @@ public class GroupSet {
         try {
             config.save(configFile);
         } catch (IOException e) {
-            PermissionsPlugin.warning("Could not save file: " + configFile.getAbsolutePath());
+            StarburstPlugin.warning("Could not save file: " + configFile.getAbsolutePath());
         }
     }
 
@@ -103,9 +103,9 @@ public class GroupSet {
             Group child = getGroup(childName);
 
             if (child == null) {
-                PermissionsPlugin.warning("Child group not found: " + childName + " in " + group.getName());
+                StarburstPlugin.warning("Child group not found: " + childName + " in " + group.getName());
             } else if (hasCircularReference(group, child)) {
-                PermissionsPlugin.warning("Circular child reference found: " + childName + " in " + group.getName());
+                StarburstPlugin.warning("Circular child reference found: " + childName + " in " + group.getName());
             } else {
                 group.addChild(child);
             }

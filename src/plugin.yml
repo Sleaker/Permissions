@@ -1,5 +1,5 @@
-name: HeroPerms
-main: com.dthielke.permissions.PermissionsPlugin
+name: Starburst
+main: com.dthielke.starburst.StarburstPlugin
 version: 1.0.0
 website: http://www.herocraftonline.com
 authors: [DThielke]

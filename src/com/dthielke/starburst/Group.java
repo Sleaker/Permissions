@@ -1,4 +1,4 @@
-package com.dthielke.permissions;
+package com.dthielke.starburst;
 
 import java.util.*;
 
